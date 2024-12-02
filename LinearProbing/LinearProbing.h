@@ -26,7 +26,7 @@ class Table {
     void MidSquareHash(int key);
     void ModuloHash(int key);
 
-    //Probing Hash Methods:
+    //Probing Hash Methods
     void LinearProbing(int key);
     void QuadraticProbing(int key);
 
@@ -40,4 +40,4 @@ class Table {
 }; 
 
 
-#endif // LINEARPROBING.H
+#endif // LINEARPROBING_H
