@@ -7,7 +7,8 @@
 const int CAPACITY = 31; // Set a const of capacity = 31
 
 
-struct Record { // Structs for Records 
+typedef struct Record { // struct for Records 
+    public:
     int key;
     int data;
 };
@@ -22,13 +23,14 @@ class Table {
     int size() const;
 
     // Hashing Methods
-    void DoubleHash(int key);
-    void MidSquareHash(int key);
-    void ModuloHash(int key);
+    int DoubleHash(int key);
+    int DoubleHashing(int key);
+    int MidSquareHash(int key);
+    int ModuloHash(int key) const;
 
     //Probing Hash Methods
-    void LinearProbing(int key);
-    void QuadraticProbing(int key);
+    int LinearProbing(int key);
+    int QuadraticProbing(int key);
 
 
     void print(); // print function
