@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iomanip>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 
 Table::Table()
@@ -84,6 +85,14 @@ int Table::QuadraticProbing(int key) {
 }
 
 void Table::print() {
-
+    cout << "Index  Key  Data" << endl;
+    for (int i = 0; i < CAPACITY; i++) {
+        cout << setw(5) << i << setw(5) << table[i].key;
+        if (table[i].key != -1) { // Only prints if the place is taken
+            cout << setw(8) << table[i].data;
+            cout << endl;
+        }
+    }
+    cout << endl;
 }
 
