@@ -17,9 +17,9 @@ typedef struct Record { // struct for Records
 class Table {
     public:
     Table(); // Constructor to initialize table.
-    void insert(const Record &entry);
+    void insert(const Record &entry, char method);
     void erase(int key);
-    void find(int key, bool found, Record &result) const;
+    int find(int key) const;
     int size() const;
 
     // Hashing Methods

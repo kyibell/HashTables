@@ -15,12 +15,62 @@ Table::Table()
     }
 }
 
-void Table::insert(const Record &entry)
+void Table::insert(const Record &entry, char method)
 {
+    method = toupper(method); // Handle case sensitive cases
+    assert(entry.key > 0); // Assert that the key is positive
+    
+    int index = ModuloHash(entry.key); // Starting with a normal hash
+  
+    switch(method) { // Switch case for hashing methods
+        case 'L': // Linear Probing
+        LinearProbing(entry.key);
+        break;
+        case 'D': // Double Hashing
+        DoubleHashing(entry.key);
+        break;
+        case 'M': // Midsquare Hashing
+        MidSquareHash(entry.key);
+        break;
+        case 'Q': // Quadratic Probing
+        QuadraticProbing(entry.key);
+        break;
+    }
+    table[index] = entry; // Table at the index is equal to the entry
+    used++; // Increment used slots
+
 }
 
 void Table::erase(int key) {
+    int index = find(key); // Find the index
+    
+    if (index == -1) {
+        cout << "Index was not found. Please try again." << endl;
+        return;
+    }
+    else {
+        cout << "Record with key: " << table[index].key << "and with data: " << table[index].data << "has been deleted." << endl;
+        table[index].key = -1; // change to -1
+        table[index].data = -999; // Flag to show deleted
+        used--; // Dedcrement used
+    }
+}
 
+int Table::find(int key) const {
+    int index = ModuloHash(key); // Start with init hash
+
+    for (int i = 0; i < CAPACITY; i++) {
+        index += i;
+        if (table[index].key == key) {
+            return index;
+        }
+    }
+    cout << "Error: Index was not found." << endl;
+    return -1; // If not found return -1
+}
+
+int Table::size() const {
+    return used; // Reutrn used 
 }
 
 int Table::ModuloHash(int key) const
@@ -64,7 +114,7 @@ int Table::MidSquareHash(int key) {
 int Table::LinearProbing(int key) {
     int index = 0; // Index Variable
     for (int i = 0; i < CAPACITY; i++) {
-        index = (key + i) % CAPACITY;
+        index = (key + i) % CAPACITY; //  Adds i to the index if the spot is taken
         if (table[index].key == -1) { // If empty, return index
             return index;
         }
