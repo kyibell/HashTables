@@ -37,7 +37,7 @@ void Table::insert(const Record &entry, char method)
         index = QuadraticProbing(entry.key);
         break;
     default:
-    cerr << "Please enter a valid option" << endl;
+        cerr << "Please enter a valid option" << endl;
     }
     table[index] = entry; // Table at the index is equal to the entry
     used++;               // Increment used slots
