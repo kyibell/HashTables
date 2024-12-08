@@ -1,8 +1,6 @@
 #ifndef CHAINING_H
 #define CHAINING_H
 
-const int CAPACITY = 31;
-
 class HashNode
 {
 public:
@@ -24,9 +22,9 @@ public:
     Table();  // Constructor
     ~Table(); // Deconstructor
 
-    void insert(HashNode newNode, char method);
+    void insert(int key, int data, char method);
     void erase(int key);
-    int find(int key);
+    HashNode *find(int key);
     int size() const;
 
     // Hashing Methods

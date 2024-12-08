@@ -35,6 +35,11 @@ Table::~Table()
     delete[] datatable; // Delete the data table
 }
 
+int Table::size() const
+{
+    return used;
+}
+
 int Table::ModuloHash(int key) const
 {
     return key % CAPACITY; // Standard Modulo Hash
@@ -68,5 +73,112 @@ int Table::MidSquareHash(int key)
 int Table::QuadraticProbing(int key)
 {
     int index = ModuloHash(key); // Inital Index
-    // Come back to this to figure out how to modify for Chaining
+    return 0;
+}
+
+void Table::insert(int key, int data, char method)
+{
+    method = toupper(method); // Handle case sensitive cases
+    assert(key > 0);          // Handle no negative keys
+    int index = 0;            // Inital Index
+
+    switch (method)
+    {
+    case 'Q': // Quadratic Probing
+        index = QuadraticProbing(key);
+        break;
+    case 'M': // Midsquare Hashing
+        index = MidSquareHash(key);
+        break;
+    case 'D': // Double Hash
+        index = DoubleHash(key);
+        break;
+    case 'H': // Modulo Hash
+        index = ModuloHash(key);
+        break;
+    default:
+        cerr << "Enter a valid opiton." << endl;
+    }
+
+    HashNode *newNode = new HashNode(key, data); // Declare a new HashNode with key and data
+
+    if (datatable[index] == NULL) // If empty, add to table
+    {
+        datatable[index] = newNode;
+    }
+    else if (datatable[index] != NULL)
+    { // If not empty, add to list
+        HashNode *temp = datatable[index];
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+
+        temp->next = newNode;
+        used++;
+        //   delete temp;
+    }
+}
+
+void Table::erase(int key)
+{
+    int index = ModuloHash(key);
+
+    HashNode *temp = datatable[index];
+    HashNode *prev = NULL; // Set a previous node in case there's multiple nodes at an index
+
+    if (temp == NULL || temp->key != key)
+    {
+        cout << "Element not found to delete, please try again." << endl;
+        return;
+    }
+
+    while (temp != NULL && temp->key != key)
+    {
+        prev = temp;
+        temp = temp->next;
+
+        if (prev != NULL)
+        { // Check if there's a node before the Node we want to delete
+            prev->next = temp->next;
+        }
+    }
+    cout << "Node with key: " << temp->key << "and with data: " << temp->data << "has been deleted." << endl;
+    delete temp;
+}
+
+HashNode *Table::find(int key)
+{
+    int index = ModuloHash(key);
+    HashNode *temp = datatable[index];
+
+    while (temp != NULL && temp->key != key)
+    {
+        temp = temp->next;
+    }
+
+    return temp;
+}
+
+void Table::print()
+{
+    cout << "Index\tKey\tData" << endl;
+    for (int i = 0; i < CAPACITY; i++)
+    {
+        if (datatable[i] == NULL)
+        {
+            cout << i << "\t--\t --" << endl;
+        }
+        else
+        {
+            cout << i << "\t";
+            HashNode *temp = datatable[i];
+            while (temp != NULL)
+            {
+                cout << "[" << temp->key << ", " << temp->data << "] --> ";
+                temp = temp->next;
+            }
+            cout << endl;
+        }
+    }
 }
