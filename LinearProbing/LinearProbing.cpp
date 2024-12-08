@@ -116,7 +116,7 @@ int Table::MidSquareHash(int key)
     }
     else
     { // else if odd, add 1 to length
-        strPosition = strPosition.substr((length + 1), numDigits);
+        strPosition = strPosition.substr((length + 1) / 4, numDigits);
     }
 
     int index = stoi(strPosition);
