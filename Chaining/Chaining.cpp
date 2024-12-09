@@ -116,7 +116,6 @@ void Table::insert(int key, int data, char method)
 
         temp->next = newNode;
         used++;
-        //   delete temp;
     }
 }
 
@@ -127,24 +126,29 @@ void Table::erase(int key)
     HashNode *temp = datatable[index];
     HashNode *prev = NULL; // Set a previous node in case there's multiple nodes at an index
 
-    if (temp == NULL || temp->key != key)
+    while (temp != NULL && temp->key != key)
+    {                      // Traverse the list while temp isn't null and if the key doesn't match
+        prev = temp;       // set previous to temp
+        temp = temp->next; // set temp to the node after temp
+    }
+
+    if (temp == NULL) // If temp is null, Node not found
     {
-        cout << "Element not found to delete, please try again." << endl;
+        cout << "Element not found to delete, please try again." << endl
+             << endl;
         return;
     }
-
-    while (temp != NULL && temp->key != key)
+    if (prev == NULL) // If it's the head node in the list
     {
-        prev = temp;
-        temp = temp->next;
-
-        if (prev != NULL)
-        { // Check if there's a node before the Node we want to delete
-            prev->next = temp->next;
-        }
+        datatable[index] = temp->next; // Update the head to be the next node
     }
-    cout << "Node with key: " << temp->key << "and with data: " << temp->data << "has been deleted." << endl;
-    delete temp;
+    else
+    {
+        prev->next = temp->next; // If in the middle, set next prev pointer to temp's next pointer
+    }
+    cout << "Node with key: " << temp->key << " and with data: " << temp->data << " has been deleted." << endl;
+    delete temp; // Delete the Node
+    --used;      // Decrement Used
 }
 
 HashNode *Table::find(int key)
@@ -156,7 +160,14 @@ HashNode *Table::find(int key)
     {
         temp = temp->next;
     }
-
+    if (temp == NULL)
+    {
+        cout << "Node not found." << endl;
+    }
+    else
+    {
+        cout << "Node found with key: " << temp->key << " and data: " << temp->data << endl;
+    }
     return temp;
 }
 

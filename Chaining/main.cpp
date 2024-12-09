@@ -9,8 +9,7 @@ using namespace std;
 
 void printmenu()
 {
-    cout << "HASH TABLE WITH CHAINING" << endl;
-    cout << endl;
+    cout << "------------HASH TABLE WITH CHAINING------------" << endl;
     cout << "Please select a choice: " << endl;
     cout << "I - Insert a record" << endl;
     cout << "D - Delete a record" << endl;
@@ -44,7 +43,7 @@ int main()
             cin >> key;
             cout << "Enter data for the record: ";
             cin >> data;
-            cout << "Enter the method you want to use for collisions:\n'H' - Modulo Hashing\n 'D' - Double Hashing \n 'Q' - Quadratic Probing \n 'M' - Midsquare Hashing: ";
+            cout << "Enter the method you want to use for collisions:\n 'H' - Modulo Hashing\n 'D' - Double Hashing \n 'Q' - Quadratic Probing \n 'M' - Midsquare Hashing: ";
             cin >> method;
             datatable.insert(key, data, method);
             break;
@@ -65,6 +64,7 @@ int main()
             datatable.print();
             break;
         case 'Q':
+            cout << "Exiting Program .... " << endl;
             return 0;
             break;
         default:
