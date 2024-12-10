@@ -72,8 +72,24 @@ int Table::MidSquareHash(int key)
 
 int Table::QuadraticProbing(int key)
 {
-    int index = ModuloHash(key); // Inital Index
-    return 0;
+    int initalHash = ModuloHash(key); // Inital Index
+    int c1 = 1;
+    int c2 = 1;
+    int i = 0;
+    int index;
+
+    do
+    {
+        index = (initalHash + c1 * i + c2 * i) % CAPACITY;
+        if (datatable[index] == NULL)
+        { // If the index is an empty slot return capacity
+            return index;
+        }
+
+        i++; // Increment i
+
+    } while (i < CAPACITY);
+    return -1; // If insertion failed
 }
 
 void Table::insert(int key, int data, char method)
@@ -100,6 +116,8 @@ void Table::insert(int key, int data, char method)
         cerr << "Enter a valid opiton." << endl;
     }
 
+    index = index % CAPACITY;
+
     HashNode *newNode = new HashNode(key, data); // Declare a new HashNode with key and data
 
     if (datatable[index] == NULL) // If empty, add to table
@@ -115,8 +133,8 @@ void Table::insert(int key, int data, char method)
         }
 
         temp->next = newNode;
-        used++;
     }
+    used++; // Increment used after node is inserted
 }
 
 void Table::erase(int key)
